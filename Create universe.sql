@@ -50,8 +50,9 @@ SET default_table_access_method = heap;
 CREATE TABLE public.blackhole (
     blackhole_id integer NOT NULL,
     gravity integer,
+    wormhole boolean DEFAULT false NOT NULL,
     galaxy_id integer,
-    wormhole boolean DEFAULT false NOT NULL
+    name character varying(255)
 );
 
 
@@ -266,6 +267,9 @@ ALTER TABLE ONLY public.star ALTER COLUMN star_id SET DEFAULT nextval('public.st
 -- Data for Name: blackhole; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.blackhole VALUES (2, 0, true, NULL, NULL);
+INSERT INTO public.blackhole VALUES (3, 0, true, NULL, NULL);
+INSERT INTO public.blackhole VALUES (4, 0, true, NULL, NULL);
 
 
 --
@@ -341,7 +345,7 @@ INSERT INTO public.star VALUES (6, 123461234, 'red', 'beatlejuice', 6);
 -- Name: blackhole_blackhole_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.blackhole_blackhole_id_seq', 1, false);
+SELECT pg_catalog.setval('public.blackhole_blackhole_id_seq', 4, true);
 
 
 --
@@ -373,6 +377,14 @@ SELECT pg_catalog.setval('public.star_star_id_seq', 6, true);
 
 
 --
+-- Name: blackhole blackhole_galaxy_id_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.blackhole
+    ADD CONSTRAINT blackhole_galaxy_id_key UNIQUE (galaxy_id);
+
+
+--
 -- Name: blackhole blackhole_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
@@ -381,11 +393,35 @@ ALTER TABLE ONLY public.blackhole
 
 
 --
+-- Name: blackhole blackhole_unique_mass; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.blackhole
+    ADD CONSTRAINT blackhole_unique_mass UNIQUE (galaxy_id);
+
+
+--
+-- Name: blackhole blackhole_unique_name; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.blackhole
+    ADD CONSTRAINT blackhole_unique_name UNIQUE (name);
+
+
+--
 -- Name: galaxy galaxy_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.galaxy
     ADD CONSTRAINT galaxy_pkey PRIMARY KEY (galaxy_id);
+
+
+--
+-- Name: galaxy galaxy_unique_name; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.galaxy
+    ADD CONSTRAINT galaxy_unique_name UNIQUE (name);
 
 
 --
@@ -413,11 +449,27 @@ ALTER TABLE ONLY public.planet
 
 
 --
+-- Name: planet planet_unique_name; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.planet
+    ADD CONSTRAINT planet_unique_name UNIQUE (name);
+
+
+--
 -- Name: star star_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.star
     ADD CONSTRAINT star_pkey PRIMARY KEY (star_id);
+
+
+--
+-- Name: star star_unique_name; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.star
+    ADD CONSTRAINT star_unique_name UNIQUE (name);
 
 
 --
@@ -447,4 +499,3 @@ ALTER TABLE ONLY public.planet
 --
 -- PostgreSQL database dump complete
 --
-
