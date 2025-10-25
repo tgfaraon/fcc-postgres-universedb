@@ -499,3 +499,7 @@ ALTER TABLE ONLY public.planet
 --
 -- PostgreSQL database dump complete
 --
+
+--
+-- PostgreSQL database dump complete
+--
